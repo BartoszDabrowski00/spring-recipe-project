@@ -5,6 +5,7 @@ import dabrowski.bartosz.springrecipe.repositories.CategoryRepository;
 import dabrowski.bartosz.springrecipe.repositories.RecipeRepository;
 import dabrowski.bartosz.springrecipe.repositories.UnitOfMeasureRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 
 @Component
+@Slf4j
 @AllArgsConstructor
 public class RecipeLoader implements ApplicationListener<ContextRefreshedEvent> {
     private final CategoryRepository categoryRepository;
@@ -23,6 +25,7 @@ public class RecipeLoader implements ApplicationListener<ContextRefreshedEvent> 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         recipeRepository.saveAll(prepareRecipes());
+        log.debug("Loading bootstrap data");
     }
 
     private List<Recipe> prepareRecipes() {

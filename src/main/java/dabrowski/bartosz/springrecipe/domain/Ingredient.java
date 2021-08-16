@@ -1,14 +1,14 @@
 package dabrowski.bartosz.springrecipe.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 public class Ingredient {
 
     @Id
