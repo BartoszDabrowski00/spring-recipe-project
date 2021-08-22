@@ -106,6 +106,10 @@ public class RecipeLoader implements ApplicationListener<ContextRefreshedEvent> 
 
         tacosRecipe.getCategories().add(americanCategory);
         tacosRecipe.getCategories().add(mexicanCategory);
+
+        tacosRecipe.setUrl("http://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/");
+        tacosRecipe.setServings(4);
+        tacosRecipe.setSource("Simply Recipes");
         return tacosRecipe;
     }
 
@@ -170,6 +174,10 @@ public class RecipeLoader implements ApplicationListener<ContextRefreshedEvent> 
 
         guacamoleRecipe.getCategories().add(americanCategory);
         guacamoleRecipe.getCategories().add(mexicanCategory);
+
+        guacamoleRecipe.setUrl("http://www.simplyrecipes.com/recipes/perfect_guacamole/");
+        guacamoleRecipe.setServings(4);
+        guacamoleRecipe.setSource("simplyrecipes");
         return guacamoleRecipe;
     }
 }
