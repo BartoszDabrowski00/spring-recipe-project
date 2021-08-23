@@ -1,5 +1,7 @@
 package dabrowski.bartosz.springrecipe.services;
 
+import dabrowski.bartosz.springrecipe.converters.RecipeCommandToRecipe;
+import dabrowski.bartosz.springrecipe.converters.RecipeToRecipeCommand;
 import dabrowski.bartosz.springrecipe.domain.Recipe;
 import dabrowski.bartosz.springrecipe.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,9 +24,15 @@ class RecipeServiceImplTest {
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
     @BeforeEach
     void setUp() {
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
     }
 
     @Test
