@@ -40,8 +40,15 @@ public class RecipeServiceImpl implements RecipeService{
     @Override
     @Transactional
     public RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand){
-        Recipe savedRecipe = recipeRepository.save(recipeCommandToRecipe.convert(recipeCommand));
-        log.debug("Saved RecipeID: " + savedRecipe.getId());
+        Recipe detachedRecipe = recipeCommandToRecipe.convert(recipeCommand);
+
+        Recipe savedRecipe = recipeRepository.save(detachedRecipe);
+        log.debug("Saved RecipeId:" + savedRecipe.getId());
         return recipeToRecipeCommand.convert(savedRecipe);
+    }
+
+    @Override
+    public RecipeCommand findCommandById(Long l) {
+        return recipeToRecipeCommand.convert(findById(l));
     }
 }
