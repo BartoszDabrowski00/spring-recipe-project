@@ -4,6 +4,7 @@ import dabrowski.bartosz.springrecipe.commands.IngredientCommand;
 import dabrowski.bartosz.springrecipe.commands.RecipeCommand;
 import dabrowski.bartosz.springrecipe.services.IngredientService;
 import dabrowski.bartosz.springrecipe.services.RecipeService;
+import dabrowski.bartosz.springrecipe.services.UnitOfMeasureService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,13 +27,16 @@ class IngredientControllerTest {
     @Mock
     RecipeService recipeService;
 
+    @Mock
+    UnitOfMeasureService unitOfMeasureService;
+
     IngredientController controller;
 
     MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
-        controller = new IngredientController(recipeService, ingredientService);
+        controller = new IngredientController(recipeService, ingredientService, unitOfMeasureService);
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
