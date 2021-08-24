@@ -1,5 +1,6 @@
 package dabrowski.bartosz.springrecipe.controllers;
 
+import dabrowski.bartosz.springrecipe.services.IngredientService;
 import dabrowski.bartosz.springrecipe.services.RecipeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @AllArgsConstructor
 public class IngredientController {
     private final RecipeService recipeService;
+    private final IngredientService ingredientService;
 
     @GetMapping
     @RequestMapping("/recipe/{recipeId}/ingredients")
@@ -23,5 +25,14 @@ public class IngredientController {
         model.addAttribute("recipe", recipeService.findCommandById(Long.valueOf(recipeId)));
 
         return "recipe/ingredients/list";
+    }
+
+    @GetMapping
+    @RequestMapping("/recipe/{recipeId}/ingredient/{ingredientId}/show")
+    public String showRecipeIngredient(@PathVariable String recipeId,
+                                       @PathVariable String ingredientId,
+                                       Model model){
+        model.addAttribute("ingredient", ingredientService.findByRecipeIdIngredientId(Long.valueOf(recipeId), Long.valueOf(ingredientId)));
+        return "recipe/ingredients/show";
     }
 }
