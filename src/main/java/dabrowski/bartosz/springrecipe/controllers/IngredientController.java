@@ -1,6 +1,8 @@
 package dabrowski.bartosz.springrecipe.controllers;
 
 import dabrowski.bartosz.springrecipe.commands.IngredientCommand;
+import dabrowski.bartosz.springrecipe.commands.RecipeCommand;
+import dabrowski.bartosz.springrecipe.commands.UnitOfMeasureCommand;
 import dabrowski.bartosz.springrecipe.services.IngredientService;
 import dabrowski.bartosz.springrecipe.services.RecipeService;
 import dabrowski.bartosz.springrecipe.services.UnitOfMeasureService;
@@ -48,7 +50,7 @@ public class IngredientController {
     }
 
     @PostMapping
-    @RequestMapping("recipe/{recipeId}/ingredient")
+    @RequestMapping("/recipe/{recipeId}/ingredient")
     public String saveOrUpdate(@ModelAttribute IngredientCommand command) {
         IngredientCommand savedCommand = ingredientService.saveIngredientCommand(command);
 
@@ -56,5 +58,22 @@ public class IngredientController {
         log.debug("saved ingredient id: " + savedCommand.getId());
 
         return "redirect:/recipe/" + savedCommand.getRecipeId() + "/ingredient/" + savedCommand.getId() + "/show";
+    }
+
+    @GetMapping
+    @RequestMapping("/recipe/{recipeId}/ingredients/new")
+    public String newRecipe(@PathVariable String recipeId, Model model){
+        RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));
+
+
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(Long.valueOf(recipeId));
+        model.addAttribute("ingredient", ingredientCommand);
+
+        ingredientCommand.setUnitOfMeasure(new UnitOfMeasureCommand());
+
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+
+        return "recipe/ingredients/ingredientform";
     }
 }
