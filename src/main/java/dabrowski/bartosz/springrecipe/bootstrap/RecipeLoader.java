@@ -56,7 +56,7 @@ public class RecipeLoader implements ApplicationListener<ContextRefreshedEvent> 
                 .description("Spicy grilled chicken taco")
                 .cookTime(9)
                 .prepTime(20)
-                .difficulty(Difficulty.Moderate)
+                .difficulty(Difficulty.MODERATE)
                 .ingredients(new HashSet<>())
                 .categories(new HashSet<>())
                 .directions("1 Prepare a gas or charcoal grill for medium-high, direct heat.\n" +
