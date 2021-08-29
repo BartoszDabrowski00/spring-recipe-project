@@ -96,7 +96,24 @@ class RecipeControllerTest {
         MockMvcBuilders.standaloneSetup(controller).build()
                 .perform(get("/recipe/1/show"))
                 .andExpect(status().isNotFound());
+    }
 
+    @Test
+    void testGetRecipeNotFound() throws Exception{
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        MockMvcBuilders.standaloneSetup(controller).build()
+                .perform(get("/recipe/5/show"))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("404error"));
+    }
+
+    @Test
+    void test400Error() throws Exception{
+        MockMvcBuilders.standaloneSetup(controller).build()
+                .perform(get("/recipe/asd/show"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"));
     }
 
 }
