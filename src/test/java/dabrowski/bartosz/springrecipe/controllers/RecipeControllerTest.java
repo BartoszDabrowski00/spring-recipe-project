@@ -2,6 +2,8 @@ package dabrowski.bartosz.springrecipe.controllers;
 
 import dabrowski.bartosz.springrecipe.commands.RecipeCommand;
 import dabrowski.bartosz.springrecipe.domain.Recipe;
+import dabrowski.bartosz.springrecipe.exceptions.NotFoundException;
+import dabrowski.bartosz.springrecipe.repositories.RecipeRepository;
 import dabrowski.bartosz.springrecipe.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -25,6 +31,9 @@ class RecipeControllerTest {
     @Mock
     RecipeService recipeService;
 
+    @Mock
+    RecipeRepository recipeRepository;
+
     RecipeController controller;
 
     @BeforeEach
@@ -33,7 +42,7 @@ class RecipeControllerTest {
     }
 
     @Test
-    void testGetRecipe() throws Exception{
+    void testGetRecipe() throws Exception {
         Recipe recipe = Recipe.builder().id(1L).build();
 
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
@@ -47,7 +56,7 @@ class RecipeControllerTest {
     }
 
     @Test
-    void testGetNewRecipeForm() throws Exception{
+    void testGetNewRecipeForm() throws Exception {
         MockMvcBuilders.standaloneSetup(controller).build()
                 .perform(get("/recipe/new"))
                 .andExpect(status().isOk())
@@ -56,7 +65,7 @@ class RecipeControllerTest {
     }
 
     @Test
-    void testPostNewRecipeForm() throws Exception{
+    void testPostNewRecipeForm() throws Exception {
         RecipeCommand command = new RecipeCommand();
         command.setId(2L);
 
@@ -72,12 +81,22 @@ class RecipeControllerTest {
     }
 
     @Test
-    void testDeleteAction() throws Exception{
+    void testDeleteAction() throws Exception {
         MockMvcBuilders.standaloneSetup(controller).build()
                 .perform(get("/recipe/1/delete"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"));
-        verify(recipeService,times(1)).deleteById(anyLong());
+        verify(recipeService, times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    void getRecipeByIdTestNotFound() throws Exception {
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        MockMvcBuilders.standaloneSetup(controller).build()
+                .perform(get("/recipe/1/show"))
+                .andExpect(status().isNotFound());
+
     }
 
 }

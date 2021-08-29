@@ -4,6 +4,7 @@ import dabrowski.bartosz.springrecipe.commands.RecipeCommand;
 import dabrowski.bartosz.springrecipe.converters.RecipeCommandToRecipe;
 import dabrowski.bartosz.springrecipe.converters.RecipeToRecipeCommand;
 import dabrowski.bartosz.springrecipe.domain.Recipe;
+import dabrowski.bartosz.springrecipe.exceptions.NotFoundException;
 import dabrowski.bartosz.springrecipe.repositories.RecipeRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +35,11 @@ public class RecipeServiceImpl implements RecipeService{
 
     @Override
     public Recipe findById(Long l) {
-        return recipeRepository.findById(l).orElseThrow(()->new RuntimeException("Recipe not found"));
+        Optional<Recipe> recipeOptional = recipeRepository.findById(l);
+        if(recipeOptional.isEmpty()){
+            throw new NotFoundException("Recipe not found");
+        }
+        return recipeOptional.get();
     }
 
     @Override
