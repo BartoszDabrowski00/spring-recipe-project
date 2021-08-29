@@ -14,10 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -110,7 +106,7 @@ class RecipeControllerTest {
 
     @Test
     void test400Error() throws Exception{
-        MockMvcBuilders.standaloneSetup(controller).build()
+        MockMvcBuilders.standaloneSetup(controller).setControllerAdvice(new ExceptionHandlerController()).build()
                 .perform(get("/recipe/asd/show"))
                 .andExpect(status().isBadRequest())
                 .andExpect(view().name("400error"));
