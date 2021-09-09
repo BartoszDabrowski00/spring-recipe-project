@@ -7,8 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.Transactional;
-import java.beans.Transient;
 import java.io.IOException;
 
 @Service
@@ -19,8 +17,7 @@ public class ImageServiceImpl implements ImageService {
 
 
     @Override
-    @Transactional
-    public void saveImageFile(Long id, MultipartFile file) {
+    public void saveImageFile(String id, MultipartFile file) {
         try{
             Recipe recipe = recipeRepository.findById(id).get();
             Byte[] byteObjects = new Byte[file.getBytes().length];

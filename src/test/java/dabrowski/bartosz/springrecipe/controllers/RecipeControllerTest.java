@@ -39,11 +39,11 @@ class RecipeControllerTest {
 
     @Test
     void testGetRecipe() throws Exception {
-        Recipe recipe = Recipe.builder().id(1L).build();
+        Recipe recipe = Recipe.builder().id("1").build();
 
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 
-        when(recipeService.findById(anyLong())).thenReturn(recipe);
+        when(recipeService.findById(anyString())).thenReturn(recipe);
 
         mockMvc.perform(get("/recipe/1/show"))
                 .andExpect(status().isOk())
@@ -63,7 +63,7 @@ class RecipeControllerTest {
     @Test
     void testPostNewRecipeForm() throws Exception {
         RecipeCommand command = new RecipeCommand();
-        command.setId(2L);
+        command.setId("2");
 
         when(recipeService.saveRecipeCommand(any())).thenReturn(command);
 
@@ -83,12 +83,12 @@ class RecipeControllerTest {
                 .perform(get("/recipe/1/delete"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"));
-        verify(recipeService, times(1)).deleteById(anyLong());
+        verify(recipeService, times(1)).deleteById(anyString());
     }
 
     @Test
     void getRecipeByIdTestNotFound() throws Exception {
-        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+        when(recipeService.findById(anyString())).thenThrow(NotFoundException.class);
 
         MockMvcBuilders.standaloneSetup(controller).build()
                 .perform(get("/recipe/1/show"))
@@ -97,7 +97,7 @@ class RecipeControllerTest {
 
     @Test
     void testGetRecipeNotFound() throws Exception{
-        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+        when(recipeService.findById(anyString())).thenThrow(NotFoundException.class);
 
         MockMvcBuilders.standaloneSetup(controller).build()
                 .perform(get("/recipe/5/show"))
@@ -109,8 +109,8 @@ class RecipeControllerTest {
     void test400Error() throws Exception{
         MockMvcBuilders.standaloneSetup(controller).setControllerAdvice(new ExceptionHandlerController()).build()
                 .perform(get("/recipe/asd/show"))
-                .andExpect(status().isBadRequest())
-                .andExpect(view().name("400error"));
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("404error"));
     }
 
 }

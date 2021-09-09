@@ -10,10 +10,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -34,7 +34,7 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
-    public Recipe findById(Long l) {
+    public Recipe findById(String l) {
         Optional<Recipe> recipeOptional = recipeRepository.findById(l);
         if(recipeOptional.isEmpty()){
             throw new NotFoundException("Recipe not found for id: " + l);
@@ -43,9 +43,9 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
-    @Transactional
     public RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand){
         Recipe detachedRecipe = recipeCommandToRecipe.convert(recipeCommand);
+        detachedRecipe.setId(UUID.randomUUID().toString());
 
         Recipe savedRecipe = recipeRepository.save(detachedRecipe);
         log.debug("Saved RecipeId:" + savedRecipe.getId());
@@ -53,12 +53,12 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
-    public RecipeCommand findCommandById(Long l) {
+    public RecipeCommand findCommandById(String l) {
         return recipeToRecipeCommand.convert(findById(l));
     }
 
     @Override
-    public void deleteById(Long l) {
+    public void deleteById(String l) {
         recipeRepository.deleteById(l);
     }
 }

@@ -37,15 +37,15 @@ class RecipeServiceImplTest {
 
     @Test
     void getRecipeById() throws Exception{
-        Recipe recipe = Recipe.builder().id(1L).build();
+        Recipe recipe = Recipe.builder().id("1").build();
         Optional<Recipe> recipeOptional = Optional.of(recipe);
 
-        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+        when(recipeRepository.findById(anyString())).thenReturn(recipeOptional);
 
-        Recipe returnedRecipe = recipeService.findById(1L);
+        Recipe returnedRecipe = recipeService.findById("1");
 
         assertNotNull(returnedRecipe);
-        verify(recipeRepository, times(1)).findById(1L);
+        verify(recipeRepository, times(1)).findById("1");
         verify(recipeRepository, never()).findAll();
     }
 
@@ -65,9 +65,9 @@ class RecipeServiceImplTest {
 
     @Test
     void testDeleteById() throws Exception{
-        Long idToDelete = 2L;
+        String idToDelete = "2";
         recipeService.deleteById(idToDelete);
 
-        verify(recipeRepository, times(1)).deleteById(anyLong());
+        verify(recipeRepository, times(1)).deleteById(anyString());
     }
 }

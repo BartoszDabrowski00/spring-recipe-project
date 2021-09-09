@@ -1,59 +1,40 @@
 package dabrowski.bartosz.springrecipe.domain;
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@Document
 public class Recipe {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    private String id;
     private String description;
     private Integer prepTime;
     private Integer cookTime;
     private Integer servings;
     private String source;
     private String url;
+    private String directions;
 
-    @Lob
-    private  String directions;
-
-    @ManyToMany
-    @JoinTable(name = "recipe_category",
-        joinColumns = @JoinColumn(name = "recipe_id"),
-        inverseJoinColumns = @JoinColumn(name = "category_id"))
+    @DBRef
     private Set<Category> categories = new HashSet<>();
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<Ingredient> ingredients = new HashSet<>();
 
-    @Lob
     private Byte[] image;
-
-    @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
-
-    @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
 
-    public void setNotes(Notes notes){
-        this.notes = notes;
-        notes.setRecipe(this);
-    }
-
-    public Recipe addIngredient(Ingredient ingredient){
-        ingredient.setRecipe(this);
+    public void addIngredient(Ingredient ingredient) {
         this.ingredients.add(ingredient);
-        return this;
     }
 }

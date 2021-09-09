@@ -3,7 +3,7 @@ package dabrowski.bartosz.springrecipe.services;
 import dabrowski.bartosz.springrecipe.commands.IngredientCommand;
 
 public interface IngredientService {
-    IngredientCommand findByRecipeIdIngredientId(Long recipeId, Long ingredientId);
+    IngredientCommand findByRecipeIdIngredientId(String recipeId, String ingredientId);
     IngredientCommand saveIngredientCommand(IngredientCommand command);
-    void deleteById(Long recipeId, Long ingredientId);
+    void deleteById(String recipeId, String ingredientId);
 }

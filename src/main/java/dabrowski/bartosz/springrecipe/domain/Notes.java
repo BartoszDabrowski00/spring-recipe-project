@@ -2,9 +2,8 @@ package dabrowski.bartosz.springrecipe.domain;
 
 import lombok.*;
 
-import javax.persistence.*;
+import java.util.UUID;
 
-@Entity
 @Data
 @EqualsAndHashCode(exclude = {"recipe"})
 @Builder
@@ -12,13 +11,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Notes {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @OneToOne
-    private Recipe recipe;
-
-    @Lob
+    private String id = UUID.randomUUID().toString();
     private String recipeNotes;
 }
