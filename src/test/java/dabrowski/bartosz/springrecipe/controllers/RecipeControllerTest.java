@@ -104,13 +104,4 @@ class RecipeControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("404error"));
     }
-
-    @Test
-    void test400Error() throws Exception{
-        MockMvcBuilders.standaloneSetup(controller).setControllerAdvice(new ExceptionHandlerController()).build()
-                .perform(get("/recipe/asd/show"))
-                .andExpect(status().isNotFound())
-                .andExpect(view().name("404error"));
-    }
-
 }

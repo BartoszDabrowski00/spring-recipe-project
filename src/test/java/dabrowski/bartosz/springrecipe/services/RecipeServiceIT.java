@@ -5,6 +5,7 @@ import dabrowski.bartosz.springrecipe.converters.RecipeCommandToRecipe;
 import dabrowski.bartosz.springrecipe.converters.RecipeToRecipeCommand;
 import dabrowski.bartosz.springrecipe.domain.Recipe;
 import dabrowski.bartosz.springrecipe.repositories.RecipeRepository;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest
 class RecipeServiceIT {
