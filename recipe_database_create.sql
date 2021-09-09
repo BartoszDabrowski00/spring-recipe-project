@@ -1,3 +1,4 @@
+CREATE DATABASE recipe_dev;
 create table category (id bigint not null auto_increment, description varchar(255), primary key (id)) engine=InnoDB;
 create table ingredient (id bigint not null auto_increment, amount decimal(19,2), description varchar(255), recipe_id bigint, unit_of_measure_id bigint, primary key (id)) engine=InnoDB;
 create table notes (id bigint not null auto_increment, recipe_notes longtext, recipe_id bigint, primary key (id)) engine=InnoDB;
